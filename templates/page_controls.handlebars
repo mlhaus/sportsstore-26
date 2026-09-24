@@ -13,7 +13,7 @@
             {{/pageButtons}}
         </div><!-- /.col -->
         <div class="col-auto text-end">
-            <form id="pageSizeForm" method="get">
+            <form id="pageSizeForm-{{controlsId}}" method="get">
                 <select class="form-select" name="pageSize">
                     {{#pageSizeOptions }}
                         <option value="{{size}}" {{selected}}>
@@ -25,7 +25,7 @@
         </div>
         <div class="col-auto">
             <button class="btn btn-light mr-2" type="submit"
-                    form="pageSizeForm">Go</button>
+                    form="pageSizeForm-{{controlsId}}">Go</button>
         </div><!-- /.col-auto -->
     </div><!-- /.row -->
 </div><!-- /.container-fluid -->

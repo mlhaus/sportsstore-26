@@ -5,7 +5,7 @@
         </div>
         <div class="col">
             {{> search_controls }}
-            {{> page_controls }}
+            {{> page_controls controlsId="top" }}
 <!--            <table class="table table-sm table-striped">-->
 <!--                <thead>-->
 <!--                <tr>-->
@@ -29,7 +29,7 @@
                     {{> product this }}
                 {{/each}}
             </div>
-            {{> page_controls }}
+            {{> page_controls controlsId="bottom" }}
         </div><!-- col -->
     </div><!-- row -->
 </div><!-- container-fluid -->
