@@ -3,6 +3,8 @@ import {AddressValidator, CustomerValidator, getData, isValid, ValidationResults
 import {Customer} from "../data/customer_models";
 import {Address} from "../data/order_models";
 import { createAndStoreOrder } from  "./order_helpers";
+import passport from "passport";
+import {customer_repository} from "../data";
 declare module "express-session" {
     interface SessionData {
         orderData?: {
@@ -13,7 +15,17 @@ declare module "express-session" {
     }
 }
 export const createOrderRoutes = (app: Express) => {
-    app.get("/checkout", (req, resp) => {
+    app.get("/checkout/google", passport.authenticate("google"));
+    app.get("/signin-google", passport.authenticate("google", {successRedirect: "/checkout", keepSessionInfo: true}));
+    app.get("/checkout", async (req, resp) => {
+        if(!req.session.orderData && req.user) {
+            req.session.orderData = {
+                customer: await CustomerValidator.validate(req.user),
+                address: await AddressValidator.validate(
+                    await customer_repository.getCustomerAddress(req.user?.id ?? 0) ?? {}
+                )
+            }
+        }
         req.session.pageSize = req.session.pageSize ?? req.query.pageSize?.toString() ?? "3"
         resp.render("order_details", {
             order: req.session.orderData,
