@@ -5,13 +5,16 @@
   "main": "index.js",
   "scripts": {
     "watch": "tsc-watch --noClear --onsuccess \"node dist/server.js\"",
-    "start": "nodemon --exec npm run watch"
+    "server": "nodemon --exec npm run watch",
+    "client": "webpack serve",
+    "start": "npm-run-all --parallel server client"
   },
   "nodemonConfig": {
     "ext": "js,handlebars,json",
     "ignore": [
       "dist/**",
-      "node_modules/**"
+      "node_modules/**",
+      "templates/admin/**"
     ]
   },
   "keywords": [],
@@ -23,6 +26,7 @@
     "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.6",
     "@types/express-session": "^1.19.0",
+    "@types/http-proxy": "^1.17.17",
     "@types/node": "^24.1.0",
     "@types/passport": "^1.0.17",
     "@types/passport-google-oauth20": "^2.0.17",
