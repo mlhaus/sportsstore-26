@@ -5,16 +5,13 @@
   "main": "index.js",
   "scripts": {
     "watch": "tsc-watch --noClear --onsuccess \"node dist/server.js\"",
-    "server": "nodemon --exec npm run watch",
-    "client": "webpack serve",
-    "start": "npm-run-all --parallel server client"
+    "start": "nodemon --exec npm run watch"
   },
   "nodemonConfig": {
     "ext": "js,handlebars,json",
     "ignore": [
       "dist/**",
-      "node_modules/**",
-      "templates/admin/**"
+      "node_modules/**"
     ]
   },
   "keywords": [],
