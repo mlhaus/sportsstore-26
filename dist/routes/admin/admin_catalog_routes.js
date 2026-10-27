@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createAdminCatalogRoutes = void 0;
 const models_1 = require("../../data/orm/models");
+const validation_1 = require("../../data/validation");
 const createAdminCatalogRoutes = (router) => {
     router.get("/table", async (req, resp) => {
         const products = await models_1.ProductModel.findAll({
@@ -21,6 +22,30 @@ const createAdminCatalogRoutes = (router) => {
         }
         else {
             throw Error(`Unexpected deletion count result: ${count}`);
+        }
+    });
+    router.get("/edit/:id", async (req, resp) => {
+        const id = req.params.id;
+        const data = {
+            product: { id: { value: id },
+                ...await validation_1.ProductDTOValidator.validate(await models_1.ProductModel.findByPk(id, { raw: true })) },
+            suppliers: await models_1.SupplierModel.findAll({ raw: true }),
+            categories: await models_1.CategoryModel.findAll({ raw: true })
+        };
+        resp.render("admin/product_editor", data);
+    });
+    router.put("/:id", async (req, resp) => {
+        const validation = await validation_1.ProductDTOValidator.validate(req.body);
+        if ((0, validation_1.isValid)(validation)) {
+            await models_1.ProductModel.update((0, validation_1.getData)(validation), { where: { id: req.params.id } });
+            resp.redirect(303, "/api/products/table");
+        }
+        else {
+            resp.render("admin/product_editor", {
+                product: { id: { value: req.params.id }, ...validation },
+                suppliers: await models_1.SupplierModel.findAll({ raw: true }),
+                categories: await models_1.CategoryModel.findAll({ raw: true })
+            });
         }
     });
 };

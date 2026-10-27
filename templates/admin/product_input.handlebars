@@ -1,0 +1,6 @@
+<div class="mb-2">
+    <label for="{{ name }}">{{label}}</label>
+    <input {{ disabled label }} id="{{ name }}" name="{{ name }}" class="form-control"
+                                value="{{ data.value }}" />
+    {{> admin/validation_messages data }}
+</div>
