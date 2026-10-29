@@ -6,7 +6,8 @@
     <td class="text-end">{{ currency price}}</td>
     <td class="ps-3">
         <button class="btn btn-sm btn-warning"
-                hx-get="/api/products/edit/{{id}}" hx-target="#content">
+                hx-get="/api/products/edit/{{id}}" hx-target="#content"
+                hx-push-url="/admin/products/edit/{{id}}">
             Edit
         </button>
         <button class="btn btn-sm btn-danger"
