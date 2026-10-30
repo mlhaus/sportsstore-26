@@ -7,12 +7,28 @@ import { Customer } from "./data/customer_models";
 const callbackURL: string = getConfig("auth:openauth:redirectionUrl");
 const clientID = getSecret("GOOGLE_CLIENT_ID");
 const clientSecret = getSecret("GOOGLE_CLIENT_SECRET");
+const authCallbackURL: string = getConfig("auth:openauth:redirectionUrl");
 declare global {
     namespace Express {
-        interface User extends Customer {  }
+        interface User extends Customer {
+            adminUser?: boolean;
+        }
     }
 }
 export const createAuthentication = (app:Express) => {
+    passport.use("admin-auth", new GoogleStrategy({
+        clientID, clientSecret, callbackURL: authCallbackURL,
+        scope: ["email", "profile"],
+        state: true
+    }, (accessToken: string, refreshToken: string,
+        profile: Profile, callback: VerifyCallback) => {
+        return callback(null, {
+            name: profile.displayName,
+            email: profile.emails?.[0].value ?? "",
+            federatedId: profile.id,
+            adminUser: true
+        })
+    }));
     passport.use(new GoogleStrategy({
         clientID, clientSecret, callbackURL,
         scope: ["email", "profile"],
@@ -28,11 +44,15 @@ export const createAuthentication = (app:Express) => {
         return callback(null, { id, name, email });
     }));
     passport.serializeUser((user, callback) => {
-        callback(null, user.id);
+        callback(null, user.adminUser ? JSON.stringify(user) : user.id);
     });
-    passport.deserializeUser((id: number, callbackFunc) => {
-        customer_repository.getCustomer(id).then(user =>
-            callbackFunc(null, user));
+    passport.deserializeUser((id: number | string, callbackFunc) => {
+        if(typeof id == "string") {
+            callbackFunc(null, JSON.parse(id));
+        } else {
+            customer_repository.getCustomer(id).then(user =>
+                callbackFunc(null, user));
+        }
     });
     app.use(passport.session());
 }
