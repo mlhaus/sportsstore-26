@@ -9,6 +9,7 @@ const admin_catalog_routes_1 = require("./admin_catalog_routes");
 const admin_order_routes_1 = require("./admin_order_routes");
 const config_1 = require("../../config");
 const passport_1 = __importDefault(require("passport"));
+const database_routes_1 = require("./database_routes");
 const users = (0, config_1.getConfig)("admin:users", []);
 const createAdminRoutes = (app) => {
     app.use((req, resp, next) => {
@@ -35,6 +36,9 @@ const createAdminRoutes = (app) => {
     const order_router = (0, express_1.Router)();
     (0, admin_order_routes_1.createAdminOrderRoutes)(order_router);
     app.use("/api/orders", apiAuth, order_router);
+    const db_router = (0, express_1.Router)();
+    (0, database_routes_1.createDbManagementRoutes)(db_router);
+    app.use("/api/database", apiAuth, db_router);
     const userAuth = (req, resp, next) => {
         if (!authCheck(req)) {
             return resp.redirect("/admin/signin");
@@ -52,6 +56,10 @@ const createAdminRoutes = (app) => {
     });
     app.get("/admin/orders", userAuth, (req, resp) => {
         resp.locals.content = "/api/orders/table";
+        resp.render("admin/admin_layout");
+    });
+    app.get("/admin/database", userAuth, (req, resp) => {
+        resp.locals.content = "/api/database";
         resp.render("admin/admin_layout");
     });
 };
