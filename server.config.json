@@ -24,21 +24,27 @@
   "catalog": {
     "orm_repo": {
       "settings": {
-        "dialect": "sqlite",
-        "storage": "catalog.db"
+        "dialect": "postgres",
+        "host": "localhost",
+        "port": "5432",
+        "username": "postgres",
+        "password": "MySecret$"
       },
       "logging": true,
-      "reset_db": true,
+      "reset_db": false,
       "seed_file": "products.json"
     }
   },
   "sessions": {
     "maxAgeHrs": 2,
-    "reset_db": true,
+    "reset_db": false,
     "orm": {
       "settings": {
-        "dialect": "sqlite",
-        "storage": "sessions.db"
+        "dialect": "postgres",
+        "host": "localhost",
+        "port": "5432",
+        "username": "postgres",
+        "password": "MySecret$"
       },
       "logging": true
     }
