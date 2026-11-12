@@ -7,7 +7,7 @@ import { Customer } from "./data/customer_models";
 const callbackURL: string = getConfig("auth:openauth:redirectionUrl");
 const clientID = getSecret("GOOGLE_CLIENT_ID");
 const clientSecret = getSecret("GOOGLE_CLIENT_SECRET");
-const authCallbackURL: string = getConfig("auth:openauth:redirectionUrl");
+const authCallbackURL: string = getConfig("admin:openauth:redirectionUrl");
 declare global {
     namespace Express {
         interface User extends Customer {

@@ -11,7 +11,7 @@ const data_1 = require("./data");
 const callbackURL = (0, config_1.getConfig)("auth:openauth:redirectionUrl");
 const clientID = (0, config_1.getSecret)("GOOGLE_CLIENT_ID");
 const clientSecret = (0, config_1.getSecret)("GOOGLE_CLIENT_SECRET");
-const authCallbackURL = (0, config_1.getConfig)("auth:openauth:redirectionUrl");
+const authCallbackURL = (0, config_1.getConfig)("admin:openauth:redirectionUrl");
 const createAuthentication = (app) => {
     passport_1.default.use("admin-auth", new passport_google_oauth20_1.Strategy({
         clientID, clientSecret, callbackURL: authCallbackURL,

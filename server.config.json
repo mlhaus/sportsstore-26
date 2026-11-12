@@ -52,6 +52,6 @@
     "openauth": {
       "redirectionUrl": "http://localhost:3000/auth-signin-google"
     },
-    "users": ["alice@example.com", "marc.hauschildt@google.com"]
+    "users": ["alice@example.com", "marc.hauschildt@gmail.com"]
   }
 }
