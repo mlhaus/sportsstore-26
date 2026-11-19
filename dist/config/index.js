@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Env = exports.getEnvironment = exports.getSecret = exports.getConfig = void 0;
+exports.Env = exports.getEnvironment = exports.getDatabaseSettings = exports.getSecret = exports.getConfig = void 0;
 const fs_1 = require("fs");
 const environment_1 = require("./environment");
 Object.defineProperty(exports, "getEnvironment", { enumerable: true, get: function () { return environment_1.getEnvironment; } });
@@ -35,3 +35,21 @@ const getSecret = (name) => {
     return secret;
 };
 exports.getSecret = getSecret;
+const getDatabaseSettings = (settings = {}) => {
+    if (settings.dialect === "sqlite") {
+        return { ...settings };
+    }
+    const port = Number((0, exports.getSecret)("DB_PORT"));
+    if (Number.isNaN(port)) {
+        throw new Error("Invalid environment variable: DB_PORT must be a number");
+    }
+    return {
+        ...settings,
+        host: (0, exports.getSecret)("DB_HOST"),
+        database: (0, exports.getSecret)("DB_DATABASE"),
+        port,
+        username: (0, exports.getSecret)("DB_USERNAME"),
+        password: (0, exports.getSecret)("DB_PASSWORD")
+    };
+};
+exports.getDatabaseSettings = getDatabaseSettings;

@@ -15,7 +15,8 @@ const logging = config.orm.logging
     : { logging: false };
 const createSessions = (app) => {
     const sequelize = new sequelize_1.Sequelize({
-        ...config.orm.settings, ...logging
+        ...(0, config_1.getDatabaseSettings)(config.orm.settings),
+        ...logging
     });
     const store = new ((0, connect_session_sequelize_1.default)(express_session_1.default.Store))({
         db: sequelize

@@ -27,4 +27,21 @@ export const getSecret = (name: string) => {
     }
     return secret;
 }
+export const getDatabaseSettings = (settings: Record<string, any> = {}) => {
+    if (settings.dialect === "sqlite") {
+        return { ...settings };
+    }
+    const port = Number(getSecret("DB_PORT"));
+    if (Number.isNaN(port)) {
+        throw new Error("Invalid environment variable: DB_PORT must be a number");
+    }
+    return {
+        ...settings,
+        host: getSecret("DB_HOST"),
+        database: getSecret("DB_DATABASE"),
+        port,
+        username: getSecret("DB_USERNAME"),
+        password: getSecret("DB_PASSWORD")
+    };
+}
 export { getEnvironment, Env };

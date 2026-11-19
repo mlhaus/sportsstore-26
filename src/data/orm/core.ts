@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import { getConfig } from "../../config";
+import { getConfig, getDatabaseSettings } from "../../config";
 import { initializeModels, CategoryModel, ProductModel, SupplierModel }
     from "./models";
 import { readFileSync } from "fs";
@@ -11,7 +11,10 @@ export class BaseRepo {
     sequelize: Sequelize;
 
     constructor() {
-        this.sequelize = new Sequelize({ ...config.settings, ...logging })
+        this.sequelize = new Sequelize({
+            ...getDatabaseSettings(config.settings),
+            ...logging
+        });
         this.initModelsAndDatabase();
     }
     async initModelsAndDatabase() : Promise<void> {

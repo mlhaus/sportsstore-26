@@ -12,7 +12,10 @@ const logging = config.logging
 class BaseRepo {
     sequelize;
     constructor() {
-        this.sequelize = new sequelize_1.Sequelize({ ...config.settings, ...logging });
+        this.sequelize = new sequelize_1.Sequelize({
+            ...(0, config_1.getDatabaseSettings)(config.settings),
+            ...logging
+        });
         this.initModelsAndDatabase();
     }
     async initModelsAndDatabase() {

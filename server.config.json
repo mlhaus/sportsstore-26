@@ -25,10 +25,11 @@
     "orm_repo": {
       "settings": {
         "dialect": "postgres",
-        "host": "localhost",
-        "port": "5432",
-        "username": "postgres",
-        "password": "MySecret$"
+        "dialectOptions": {
+          "ssl": {
+            "require": true
+          }
+        }
       },
       "logging": true,
       "reset_db": false,
@@ -41,10 +42,11 @@
     "orm": {
       "settings": {
         "dialect": "postgres",
-        "host": "localhost",
-        "port": "5432",
-        "username": "postgres",
-        "password": "MySecret$"
+        "dialectOptions": {
+          "ssl": {
+            "require": true
+          }
+        }
       },
       "logging": true
     }

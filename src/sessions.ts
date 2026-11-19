@@ -1,6 +1,6 @@
 import { Express } from "express";
 import { Sequelize } from "sequelize";
-import { getConfig, getSecret } from "./config";
+import { getConfig, getDatabaseSettings, getSecret } from "./config";
 import session from "express-session";
 import sessionStore from "connect-session-sequelize";
 const config = getConfig("sessions");
@@ -10,7 +10,8 @@ const logging = config.orm.logging
     : { logging: false };
 export const createSessions = (app: Express) => {
     const sequelize = new Sequelize({
-        ...config.orm.settings, ...logging
+        ...getDatabaseSettings(config.orm.settings),
+        ...logging
     });
     const store = new (sessionStore(session.Store))({
         db: sequelize
