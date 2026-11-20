@@ -13,7 +13,7 @@ const errors_1 = require("./errors");
 const sessions_1 = require("./sessions");
 const authentication_1 = require("./authentication");
 const http_proxy_1 = __importDefault(require("http-proxy"));
-const port = (0, config_1.getConfig)("http:port", 3000);
+const port = Number(process.env.PORT) || (0, config_1.getConfig)("http:port", 3000);
 const expressApp = (0, express_1.default)();
 expressApp.use((0, helmet_1.default)((0, config_1.getConfig)("http:content_security", {})));
 expressApp.use(express_1.default.json());
