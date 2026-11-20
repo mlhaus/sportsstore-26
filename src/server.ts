@@ -8,7 +8,7 @@ import { createErrorHandlers } from "./errors";
 import { createSessions } from "./sessions";
 import {createAuthentication} from "./authentication";
 import httpProxy from "http-proxy";
-const port = getConfig("http:port", 3000);
+const port = process.env.PORT || getConfig("http:port", 3000);
 const expressApp: Express = express();
 expressApp.use(helmet(getConfig("http:content_security", {})));
 expressApp.use(express.json());

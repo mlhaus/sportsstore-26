@@ -14,6 +14,23 @@ try {
 } catch {
     // do nothing - file doesn't exist or isn't readable
 }
+
+const appUrl = process.env.APP_URL?.replace(/\/+$/, "");
+
+if (process.env.AUTH_REDIRECT_URL || appUrl) {
+    data.auth ??= {};
+    data.auth.openauth ??= {};
+    data.auth.openauth.redirectionUrl =
+        process.env.AUTH_REDIRECT_URL || `${appUrl}/signin-google`;
+}
+
+if (process.env.ADMIN_AUTH_REDIRECT_URL || appUrl) {
+    data.admin ??= {};
+    data.admin.openauth ??= {};
+    data.admin.openauth.redirectionUrl =
+        process.env.ADMIN_AUTH_REDIRECT_URL || `${appUrl}/auth-signin-google`;
+}
+
 export const getConfig = (path: string, defaultVal: any = undefined) : any => {
     const paths = path.split(":");
     let val = data;
