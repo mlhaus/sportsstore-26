@@ -12,7 +12,10 @@
         "includeFiles": [
           "server.config.json",
           "products.json",
-          "templates/**"
+          "templates/**",
+          "node_modules/bootstrap/dist/**",
+          "node_modules/bootstrap-icons/**",
+          "node_modules/htmx.org/dist/**"
         ]
       }
     }
