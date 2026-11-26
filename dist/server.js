@@ -34,4 +34,7 @@ if ((0, config_1.getEnvironment)() === config_1.Env.Development) {
     server.on('upgrade', (req, socket, head) => proxy.ws(req, socket, head));
 }
 (0, errors_1.createErrorHandlers)(expressApp);
-server.listen(port, () => console.log(`HTTP Server listening on port ${port}`));
+if (!process.env.VERCEL) {
+    server.listen(port, () => console.log(`HTTP Server listening on port ${port}`));
+}
+module.exports = expressApp;

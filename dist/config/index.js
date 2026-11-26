@@ -7,6 +7,7 @@ Object.defineProperty(exports, "getEnvironment", { enumerable: true, get: functi
 Object.defineProperty(exports, "Env", { enumerable: true, get: function () { return environment_1.Env; } });
 const merge_1 = require("./merge");
 const dotenv_1 = require("dotenv");
+const pg = require("pg");
 const file = process.env.SERVER_CONFIG ?? "server.config.json";
 const data = JSON.parse((0, fs_1.readFileSync)(file).toString());
 (0, dotenv_1.config)({
@@ -58,6 +59,7 @@ const getDatabaseSettings = (settings = {}) => {
     }
     return {
         ...settings,
+        ...(settings.dialect === "postgres" ? { dialectModule: pg } : {}),
         host: (0, exports.getSecret)("DB_HOST"),
         database: (0, exports.getSecret)("DB_DATABASE"),
         port,

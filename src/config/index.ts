@@ -2,6 +2,7 @@ import { readFileSync } from "fs";
 import { getEnvironment, Env } from "./environment";
 import { merge } from "./merge";
 import { config as dotenvconfig } from "dotenv";
+const pg = require("pg");
 const file = process.env.SERVER_CONFIG ?? "server.config.json"
 const data = JSON.parse(readFileSync(file).toString());
 dotenvconfig({
@@ -54,6 +55,7 @@ export const getDatabaseSettings = (settings: Record<string, any> = {}) => {
     }
     return {
         ...settings,
+        ...(settings.dialect === "postgres" ? { dialectModule: pg } : {}),
         host: getSecret("DB_HOST"),
         database: getSecret("DB_DATABASE"),
         port,
